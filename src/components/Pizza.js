@@ -72,9 +72,10 @@ function Pizza(props) {
         axios.post("https://reqres.in/api/users", pizza)
         .then(res =>{
             console.log(res)
+            props.add(res);
             setPizza(blank)
         })
-        props.add(pizza);
+        
     }
 
 
