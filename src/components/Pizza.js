@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import { Card, CardHeader, CardImg, Form, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Label, FormGroup, Col, CardBody, Row, Button } from 'reactstrap'
+
+import { Card, CardHeader, CardImg, Form, Input, Label, FormGroup, Col, CardBody, Button } from 'reactstrap';
+import React, {useState} from 'react';
+import * as Yup from 'yup';
 
 function Pizza(props) {
     const blank = {
+        name: '',
         size: 'Small',
         sauce: 'red',
         pepperoni: true,
@@ -24,8 +27,41 @@ function Pizza(props) {
     const [menuOpen, setMenuOpen] = useState(false)
     const toggle = () => setMenuOpen(prevState => !prevState)
     const [pizza, setPizza] = useState(blank)
+    const [valid, setValid] = useState(false);
 
+    const [errors, setErrors] = useState({
+        name: ''
+    })
+
+    const formSchema = Yup.object().shape({
+        name: Yup
+        .string()
+        .min(2, "Name must be at least 2 characters long")
+        .required("Must Enter a Name")
+    })
+
+    function validateContent(e){
+        Yup.reach(formSchema, e.target.name)
+        .validate(e.target.value)
+        .then(valid =>{
+            setErrors({
+                ...errors,
+                [e.target.name]: ''
+            })
+        })
+        .catch(err =>{
+            setErrors({
+                ...errors,
+                [e.target.name]: err.errors[0]
+            })
+        })
+    }
+//*/
     function handleChanges(e){
+        e.persist()
+        if(e.target.name === 'name'){
+            validateContent(e)
+        }
         console.log(e.target)
         setPizza({...pizza, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value})
     }
@@ -44,6 +80,11 @@ function Pizza(props) {
                     <CardImg src={require('../Assets/Pizza.jpg')} />
                 </CardHeader>
                 <Form onSubmit={handleSubmit}>
+                    <label htmlFor='name'>
+                        Name for Order
+                        <input id='name' type='text' name='name' value={pizza.name} onChange={handleChanges} />
+                        <p>{errors.name !== '' ? errors.name : ''}</p>
+                    </label>
                     <CardHeader>
                         <h1>Choose Your Size</h1>
                     </CardHeader>

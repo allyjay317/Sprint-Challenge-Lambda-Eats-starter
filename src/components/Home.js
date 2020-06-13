@@ -10,7 +10,7 @@ function Home(){
                 <div style={{position: 'absolute', width: '80%', top: '50%', left: '10%', color: 'whitesmoke', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1>Your favorite food, delivered while coding</h1>
                     <Link to='/pizza' >
-                        <Button style={{margin: 'auto 0'}}>Pizza?</Button>
+                        <Button style={{margin: 'auto 0'} } cy-data='pizzalink'>Pizza?</Button>
                     </Link>
                 </div>
             </Card>
