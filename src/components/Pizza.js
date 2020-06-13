@@ -2,6 +2,7 @@
 import { Card, CardHeader, CardImg, Form, Input, Label, FormGroup, Col, CardBody, Button } from 'reactstrap';
 import React, {useState} from 'react';
 import * as Yup from 'yup';
+import axios from 'axios'
 
 function Pizza(props) {
     const blank = {
@@ -68,6 +69,11 @@ function Pizza(props) {
 
     function handleSubmit(e){
         e.preventDefault()
+        axios.post("https://reqres.in/api/users", pizza)
+        .then(res =>{
+            console.log(res)
+            setPizza(blank)
+        })
         props.add(pizza);
     }
 
@@ -82,7 +88,7 @@ function Pizza(props) {
                 <Form onSubmit={handleSubmit}>
                     <label htmlFor='name'>
                         Name for Order
-                        <input id='name' type='text' name='name' value={pizza.name} onChange={handleChanges} />
+                        <input id='name' type='text' name='name' value={pizza.name} onChange={handleChanges} cy-data='namefield'/>
                         <p>{errors.name !== '' ? errors.name : ''}</p>
                     </label>
                     <CardHeader>
@@ -128,13 +134,13 @@ function Pizza(props) {
                     <CardBody>
                     <Col sm={12} style={{width: '100%'}}>
                         <FormGroup>
-                        <Label><Input type='checkbox' name='pepperoni' checked= {pizza.pepperoni} onChange={handleChanges} />Pepperoni</Label>
+                        <Label><Input type='checkbox' name='pepperoni' cy-data='pepperoni' checked= {pizza.pepperoni} onChange={handleChanges} />Pepperoni</Label>
                         </FormGroup>
                         <FormGroup>
                         <Label><Input type='checkbox' name='tomatoes' checked= {pizza.tomatoes} onChange={handleChanges} />Diced Tomatoes</Label>
                         </FormGroup>
                         <FormGroup>
-                        <Label><Input type='checkbox' name='sausage' checked= {pizza.sausage} onChange={handleChanges} />Sausage</Label>
+                        <Label><Input type='checkbox' name='sausage' cy-data='sausage' checked= {pizza.sausage} onChange={handleChanges} />Sausage</Label>
                         </FormGroup>
                         <FormGroup>
                         <Label><Input type='checkbox' name='olive' checked= {pizza.olive} onChange={handleChanges} />Black Olives</Label>
@@ -158,7 +164,7 @@ function Pizza(props) {
                         <Label><Input type='checkbox' name='threecheese' checked= {pizza.threecheese} onChange={handleChanges} />Three Cheese</Label>
                         </FormGroup>
                         <FormGroup>
-                        <Label><Input type='checkbox' name='onion' checked= {pizza.onion} onChange={handleChanges} />Onions</Label>
+                        <Label><Input type='checkbox' name='onion' cy-data='onion' checked= {pizza.onion} onChange={handleChanges} />Onions</Label>
                         </FormGroup>
                         <FormGroup>
                         <Label><Input type='checkbox' name='illegal' checked= {pizza.illegal} onChange={handleChanges} />Pinapple</Label>
@@ -178,7 +184,7 @@ function Pizza(props) {
                     
                     </Label>
                     </FormGroup>
-                    <Button onSubmit={handleSubmit} value={pizza.instructions}>Order!</Button>
+                    <Button cy-data='orderpizza' onSubmit={handleSubmit} value={pizza.instructions}>Order!</Button>
                 </Form>
             </Card>
         </div>

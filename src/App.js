@@ -16,7 +16,7 @@ const App = () => {
       <Navbar>
         <h1>Lambda Eats</h1>
         <Link to='/'>
-          <Button>Home</Button>
+          <Button cy-data='homebutton'>Home</Button>
         </Link>
       </Navbar>
       <Route exact path='/' component={Home}/>
